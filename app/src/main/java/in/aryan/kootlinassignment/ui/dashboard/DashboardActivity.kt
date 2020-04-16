@@ -5,6 +5,7 @@ import `in`.aryan.kootlinassignment.databinding.ActivityMainBinding
 import `in`.aryan.kootlinassignment.model.DataModel
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
@@ -21,10 +22,8 @@ class DashboardActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = DashboardViewModel();
-        viewModel.isLoading.postValue(false)
+        viewModel.isLoading.value = false
 
-        adapter = DashboardItemAdapter(this@DashboardActivity)
-        binding.rvItems.adapter = adapter
         viewModel.getListData()
 
         attachObserver()
@@ -34,9 +33,18 @@ class DashboardActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
         viewModel.apiResponse.observe(this@DashboardActivity, Observer {
             it.let {
                 if (it is DataModel) {
-                    adapter.apply {
-                        addItems(it.rows)
+                    supportActionBar.apply {
+                        title = it.title
                     }
+                    binding.rvItems.adapter = DashboardItemAdapter(this@DashboardActivity, it.rows)
+                }
+            }
+        })
+
+        viewModel.apiError.observe(this@DashboardActivity, Observer {
+            it.let {
+                if (it is String){
+                    Toast.makeText(this@DashboardActivity, it, Toast.LENGTH_SHORT).show()
                 }
             }
         })

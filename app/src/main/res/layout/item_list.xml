@@ -11,6 +11,8 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/item_bg"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -33,23 +35,22 @@
 
                 <TextView
                     android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@{item.title}"
+                    android:padding="6dp"
                     android:textColor="@android:color/holo_purple"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/img_show_more"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Meese" />
 
                 <TextView
                     android:id="@+id/tvDetails"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@{item.description}"
+                    android:padding="6dp"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="@id/gv_h1"
@@ -60,11 +61,20 @@
                 <ImageView
                     android:id="@+id/ivItem"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_height="50dp"
+                    android:padding="6dp"
+                    app:layout_constraintEnd_toStartOf="@+id/img_show_more"
                     app:layout_constraintStart_toStartOf="@id/gv_h1"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+                <ImageView
+                    android:id="@+id/img_show_more"
+                    android:src="@drawable/ic_arrow_right"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_width="40dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

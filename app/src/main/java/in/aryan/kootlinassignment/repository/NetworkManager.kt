@@ -75,29 +75,37 @@ class NetworkManager() {
         val errorModel = ErrorModel()
         try {
             // Exception comes by Java
-            if (t is SocketTimeoutException) {
-                errorModel.error_code = ResponseCodes.INTERNET_NOT_AVAILABLE
-                errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
-            } else if (t is TimeoutException) {
-                errorModel.error_code = ResponseCodes.URL_CONNECTION_ERROR
-                errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
-            } else if (t is ClassCastException) {
-                errorModel.error_code = ResponseCodes.MODEL_TYPE_CAST_EXCEPTION
-                errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
-            } else if (t is MalformedJsonException) {
-                errorModel.error_code = ResponseCodes.MODEL_TYPE_CAST_EXCEPTION
-                errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
-            } else if (t is ParseException) {
-                errorModel.error_code = ResponseCodes.MODEL_TYPE_CAST_EXCEPTION
-                errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
-            } else if (t is UnknownHostException) {
-                errorModel.error_code = ResponseCodes.INTERNET_NOT_AVAILABLE
-                errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
-            } else {
-                val errorMessage = (t as HttpException).response()?.errorBody()!!.string()
-                val responseCode = t.response()?.code()
-                errorModel.error_code = responseCode!!
-                errorModel.error_message = errorMessage
+            when (t) {
+                is SocketTimeoutException -> {
+                    errorModel.error_code = ResponseCodes.INTERNET_NOT_AVAILABLE
+                    errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
+                }
+                is TimeoutException -> {
+                    errorModel.error_code = ResponseCodes.URL_CONNECTION_ERROR
+                    errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
+                }
+                is ClassCastException -> {
+                    errorModel.error_code = ResponseCodes.MODEL_TYPE_CAST_EXCEPTION
+                    errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
+                }
+                is MalformedJsonException -> {
+                    errorModel.error_code = ResponseCodes.MODEL_TYPE_CAST_EXCEPTION
+                    errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
+                }
+                is ParseException -> {
+                    errorModel.error_code = ResponseCodes.MODEL_TYPE_CAST_EXCEPTION
+                    errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
+                }
+                is UnknownHostException -> {
+                    errorModel.error_code = ResponseCodes.INTERNET_NOT_AVAILABLE
+                    errorModel.error_message = ResponseCodes.logErrorMessage(errorModel.error_code)
+                }
+                else -> {
+                    val errorMessage = (t as HttpException).response()?.errorBody()!!.string()
+                    val responseCode = t.response()?.code()
+                    errorModel.error_code = responseCode!!
+                    errorModel.error_message = errorMessage
+                }
             }
         } catch (ex: Exception) {
             ex.printStackTrace()

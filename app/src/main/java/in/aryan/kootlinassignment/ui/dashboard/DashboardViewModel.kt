@@ -15,8 +15,8 @@ class DashboardViewModel : ViewModel() {
     var apiResponse = MutableLiveData<DataModel>()
 
     fun getListData(){
-        //if (isLoading.value == false) {
-            //isLoading.value = true
+        if (isLoading.value == false) {
+            isLoading.value = true
             val manager = NetworkManager()
             manager.createApiRequest(ApiUtilis.getAPIService().getListDate(), object :
                 ServiceListener<DataModel> {
@@ -32,6 +32,6 @@ class DashboardViewModel : ViewModel() {
                 }
             })
 
-        //}
+        }
     }
 }
