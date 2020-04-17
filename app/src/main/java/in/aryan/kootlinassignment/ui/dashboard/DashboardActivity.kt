@@ -10,8 +10,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.activity_main.*
 
-class DashboardActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class DashboardActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: DashboardViewModel
@@ -24,19 +25,31 @@ class DashboardActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
         viewModel = DashboardViewModel();
         viewModel.isLoading.value = false
 
+        setToolbartitle("")
+
+
         viewModel.getListData()
 
         attachObserver()
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.getListData()
+            binding.swiperefresh.isRefreshing = false
+        }
     }
 
     private fun attachObserver() {
         viewModel.apiResponse.observe(this@DashboardActivity, Observer {
             it.let {
                 if (it is DataModel) {
-                    supportActionBar.apply {
-                        title = it.title
+                    setToolbartitle(it.title)
+                    val lstDataRows: MutableList<DataModel.Row> = ArrayList()
+                    for (item in it.rows){
+                        if (item.title !=null){
+                            lstDataRows.add(item)
+                        }
                     }
-                    binding.rvItems.adapter = DashboardItemAdapter(this@DashboardActivity, it.rows)
+                    binding.rvItems.adapter = DashboardItemAdapter(this@DashboardActivity, lstDataRows)
                 }
             }
         })
@@ -50,7 +63,9 @@ class DashboardActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListe
         })
     }
 
-    override fun onRefresh() {
-        viewModel.getListData()
+    fun setToolbartitle(_title:String){
+        supportActionBar.apply {
+            title = _title
+        }
     }
 }

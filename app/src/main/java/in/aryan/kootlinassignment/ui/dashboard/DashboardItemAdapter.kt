@@ -7,10 +7,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nostra13.universalimageloader.core.ImageLoader
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 
-class DashboardItemAdapter(private val context: Context, private val lstItems : MutableList<DataModel.Row>): RecyclerView.Adapter<DashboardItemAdapter.ItemHolder>() {
+class DashboardItemAdapter(val context: Context, private val lstItems : MutableList<DataModel.Row>): RecyclerView.Adapter<DashboardItemAdapter.ItemHolder>() {
 
     class ItemHolder(private val binding: ItemListBinding):RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(binding.root.context));
+        }
+
         fun setData(item:DataModel.Row){
             item.apply {
                 binding.tvTitle.text = title
@@ -31,7 +37,9 @@ class DashboardItemAdapter(private val context: Context, private val lstItems : 
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.setData(lstItems[position])
+        lstItems[position].apply {
+            holder.setData(lstItems[position])
+        }
     }
 
 
