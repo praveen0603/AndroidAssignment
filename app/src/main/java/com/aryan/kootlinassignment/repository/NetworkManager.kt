@@ -1,4 +1,4 @@
-package `in`.aryan.kootlinassignment.repository
+package com.aryan.kootlinassignment.repository
 
 import android.app.Dialog
 

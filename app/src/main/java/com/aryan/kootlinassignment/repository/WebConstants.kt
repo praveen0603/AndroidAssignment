@@ -1,4 +1,4 @@
-package `in`.aryan.kootlinassignment.repository
+package com.aryan.kootlinassignment.repository
 
 class WebConstants {
     companion object {

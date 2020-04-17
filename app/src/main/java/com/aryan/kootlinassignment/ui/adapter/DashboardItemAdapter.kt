@@ -1,28 +1,29 @@
-package `in`.aryan.kootlinassignment.ui.dashboard
+package com.aryan.kootlinassignment.ui.adapter
 
-import `in`.aryan.kootlinassignment.databinding.ItemListBinding
-import `in`.aryan.kootlinassignment.model.DataModel
+import com.aryan.kootlinassignment.databinding.ItemListBinding
+import com.aryan.kootlinassignment.model.DataModel
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.aryan.kootlinassignment.data.RowItem
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 
-class DashboardItemAdapter(val context: Context, private val lstItems : MutableList<DataModel.Row>): RecyclerView.Adapter<DashboardItemAdapter.ItemHolder>() {
+class DashboardItemAdapter(private val context: Context, private val lstItems : MutableList<RowItem>): RecyclerView.Adapter<DashboardItemAdapter.ItemHolder>() {
 
     class ItemHolder(private val binding: ItemListBinding):RecyclerView.ViewHolder(binding.root) {
 
         init {
-            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(binding.root.context));
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(binding.root.context))
         }
 
-        fun setData(item:DataModel.Row){
+        fun setData(item:RowItem){
             item.apply {
                 binding.tvTitle.text = title
                 binding.tvDetails.text = description
-                if (imageHref != null) {
-                    ImageLoader.getInstance().displayImage(imageHref.toString(), binding.ivItem)
+                if (!imageUrl.isNullOrEmpty()) {
+                    ImageLoader.getInstance().displayImage(imageUrl, binding.ivItem)
                 }
             }
         }
@@ -38,8 +39,16 @@ class DashboardItemAdapter(val context: Context, private val lstItems : MutableL
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         lstItems[position].apply {
-            holder.setData(lstItems[position])
+            holder.setData(this)
         }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
 

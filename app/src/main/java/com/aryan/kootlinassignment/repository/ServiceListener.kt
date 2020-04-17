@@ -1,4 +1,4 @@
-package `in`.aryan.kootlinassignment.repository
+package com.aryan.kootlinassignment.repository
 
 /**
  * it contain the common method  @getServerResponse ,getError for handling the api response of api.

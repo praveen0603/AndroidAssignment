@@ -1,4 +1,4 @@
-package `in`.aryan.kootlinassignment.repository
+package com.aryan.kootlinassignment.repository
 
 /**
  * @ResponseCodes class contain all the static values of responses

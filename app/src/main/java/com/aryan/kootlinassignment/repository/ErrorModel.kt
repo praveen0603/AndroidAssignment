@@ -1,4 +1,4 @@
-package `in`.aryan.kootlinassignment.repository
+package com.aryan.kootlinassignment.repository
 
 /**
  * Created by parmil.sharma on 14/02/18.

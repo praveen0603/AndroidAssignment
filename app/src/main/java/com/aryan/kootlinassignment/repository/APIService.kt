@@ -1,6 +1,6 @@
-package `in`.aryan.kootlinassignment.repository
+package com.aryan.kootlinassignment.repository
 
-import `in`.aryan.kootlinassignment.model.DataModel
+import com.aryan.kootlinassignment.model.DataModel
 import io.reactivex.Observable
 import retrofit2.http.*
 
